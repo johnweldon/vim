@@ -1,24 +1,32 @@
 
-if has("gui_win32")
-	set guifont=Envy_Code_R:h11,Consolas:h10,Anonymous_Pro:h10,Lucida_Console:h10
-endif
-
-if has("gui_macvim")
-	set guifont=Monaco:h12,Andale_Mono:h12,Menlo:h12
-endif
-
-
 set columns=132
-set lines=60
+set lines=50
 set nowrap
 
 set vb t_vb=""
-
-"colorscheme vividchalk
-"colorscheme tango
-colorscheme torte
 
 set background=dark
 
 set guioptions=c
 
+
+if has("gui_win32")
+    set guifont=Source_Code_Pro:h14,Consolas:h14,Anonymous_Pro:h14,Envy_Code_R:h14,Lucida_Console:h14
+    colorscheme vividchalk
+elseif has("gui_macvim")
+    set guifont=Monaco:h16,Menlo:h16,Andale_Mono:h16
+    colorscheme macvim
+elseif has("x11")
+    set guifont="Ubuntu Mono 10"
+    colorscheme koehler
+    set columns=80
+    set lines=30
+else
+    colorscheme vividchalk
+endif
+
+
+
+if filereadable(findfile("~/.local.gvimrc"))
+    source ~/.local.gvimrc
+endif
