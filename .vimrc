@@ -1,6 +1,11 @@
 runtime bundle/vim-pathogen/autoload/pathogen.vim
+
+let g:pathogen_disabled = []
+if has("win32") || !has("python")
+    call add(g:pathogen_disabled, 'youcompleteme')
+endif
+
 call pathogen#infect()
-call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
 set nocompatible
@@ -41,8 +46,14 @@ set vb t_vb="<Esc>|10f"
 set background=dark
 set sidescroll=15
 set sidescrolloff=5
-set showbreak=\ \ -->\  
+set showbreak=\ \ +\  
 set linebreak
+set colorcolumn=+1
+set statusline=[%n]\ %<%f\ %h%m%r\ %q%=\ 0x%B\ %b\ \ \ %-14.(%l,%c%V%)\ %o\ %P
+
+hi IncSearch cterm=underline
+hi Search cterm=underline ctermfg=1 ctermbg=0
+hi LineNr cterm=NONE ctermfg=6
 
 set formatprg=indent
 set grepprg=grep\ -n
@@ -55,25 +66,33 @@ set listchars+=precedes:<,extends:>
 
 set noswapfile
 set directory=
-set rtp+=$GOROOT/misc/vim
 
 filetype plugin indent on
+set omnifunc=syntaxcomplete#Complete
 
 
 if has("win32")
-	set makeprg=nmake
+    set makeprg=nmake
 else
-	set makeprg=make
+    set makeprg=make
 endif
 
 if version >= 700
-	set diffopt=vertical
+    set diffopt=vertical
 endif
 
 
 let c_comment_strings=1
 
+let g:godef_split=0
+let g:godef_same_file_in_same_window=1
+
+set nocursorline
+set synmaxcol=128
 syntax on
 
 vmap <silent> <F6> :!sort<CR>
 
+if filereadable(findfile("~/.local.vimrc"))
+    source ~/.local.vimrc
+endif
